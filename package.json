@@ -1,0 +1,29 @@
+{
+  "name": "nodejs-twitter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "npx nodemon",
+    "start": "node src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buiduclamm/nodejs-twitter.git"
+  },
+  "author": "Duler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/buiduclamm/nodejs-twitter/issues"
+  },
+  "homepage": "https://github.com/buiduclamm/nodejs-twitter#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
