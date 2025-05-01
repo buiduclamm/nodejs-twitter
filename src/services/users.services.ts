@@ -1,16 +1,15 @@
-import User from '~/models/schemas/User.schema'
+import Users from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
 
 
 class UsersService {
 	async register(payload: { email: string; password: string }) {
 		const { email, password } = payload
-		const result = await databaseService.users.insertOne(
-			new User({
-				email,
-				password
-			})
-		)
+		const result = await databaseService.users.insertOne(new Users({
+			email,
+			password,
+			confirm_password: password,
+		}))
 
 		return result
 	}
