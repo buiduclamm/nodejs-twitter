@@ -1,18 +1,12 @@
 import { ObjectId } from "mongodb";
-
-enum UserVerifyStatus {
-	Unverified, // Not verified email yet, default value = 0
-	Verified, // Verified email, value = 1
-	Banned, // Banned user, value = 2
-}
+import { UserVerifyStatus } from "~/constants/enum";
 
 interface UserType {
 	_id?: ObjectId;
 	name?: string; 
 	email: string; 
 	date_of_birth?: Date; 
-	password: string; 
-	confirm_password: string;
+	password: string;
 	created_at?: Date;
 	updated_at?: Date; 
 	email_verify_token?: string; // JWT or '' if verified
@@ -32,8 +26,7 @@ export default class User {
 	name: string; 
 	email: string; 
 	date_of_birth: Date; 
-	password: string; 
-	confirm_password: string;
+	password: string;
 	created_at: Date;
 	updated_at: Date; 
 	email_verify_token: string; // JWT or '' if verified
@@ -53,7 +46,6 @@ export default class User {
 		this.email = user.email;
 		this.date_of_birth = user.date_of_birth || new Date();
 		this.password = user.password;
-		this.confirm_password = user.confirm_password;
 		this.created_at = user.created_at || new Date();
 		this.updated_at = user.updated_at || new Date();
 		this.email_verify_token = user.email_verify_token || '';

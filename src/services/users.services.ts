@@ -1,6 +1,7 @@
 import { RegisterRequestBody } from '~/models/requests/User.request'
 import Users from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
+import { hashPassword } from '~/utils/crypto'
 
 
 class UsersService {
@@ -9,6 +10,7 @@ class UsersService {
 		const result = await databaseService.users.insertOne(new Users({
 			...payload,
 			date_of_birth: new Date(payload.date_of_birth),
+			password: hashPassword(password),
 		}))
 
 		return result
