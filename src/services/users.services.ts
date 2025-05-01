@@ -1,17 +1,22 @@
+import { RegisterRequestBody } from '~/models/requests/User.request'
 import Users from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
 
 
 class UsersService {
-	async register(payload: { email: string; password: string }) {
+	async register(payload: RegisterRequestBody) {
 		const { email, password } = payload
 		const result = await databaseService.users.insertOne(new Users({
-			email,
-			password,
-			confirm_password: password,
+			...payload,
+			date_of_birth: new Date(payload.date_of_birth),
 		}))
 
 		return result
+	}
+
+	async checkEmailExists(email: string) {
+		const user = await databaseService.users.findOne({ email })
+		return user
 	}
 }
 

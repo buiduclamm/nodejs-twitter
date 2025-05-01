@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { checkSchema } from "express-validator";
+import usersService from "~/services/users.services";
+import { validate } from "~/utils/validation";
 
 export const loginValidator = (req: Request, res: Response, next: NextFunction) => {
 	const { email, password } = req.body
@@ -14,7 +16,7 @@ export const loginValidator = (req: Request, res: Response, next: NextFunction) 
 	next();
 }
 
-export const registerValidator = checkSchema({
+export const registerValidator = validate(checkSchema({
 	name: {
 		notEmpty: true,
 		trim: true,
@@ -29,6 +31,17 @@ export const registerValidator = checkSchema({
 		notEmpty: true,
 		isEmail: true,
 		trim: true,
+		custom: {
+			options: async (value: string) => {
+				const user = await usersService.checkEmailExists(value)
+				if (user) {
+					throw new Error('Email already in use')
+				}
+
+				return true
+			}
+		},
+		errorMessage: 'Invalid email address',
 	},
 	password: {
 		notEmpty: true,
@@ -79,8 +92,8 @@ export const registerValidator = checkSchema({
 			}
 		}
 	},
-	
 	date_of_birth: {
+		notEmpty: false,
 		isISO8601: {
 			options:  {
 				strict: true,
@@ -88,4 +101,4 @@ export const registerValidator = checkSchema({
 			}
 		}
 	}
-})
+}))
