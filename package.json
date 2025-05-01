@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/buiduclamm/nodejs-twitter#readme",
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.9",
     "crypto": "^1.0.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
