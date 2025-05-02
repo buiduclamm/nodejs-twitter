@@ -10,14 +10,8 @@ export const loginController = (req: Request, res: Response) => {
 }
 
 export const registerController = async (req: Request<ParamsDictionary, any, RegisterRequestBody>, res: Response) => {
-	try {
-		const result = await usersService.register(req.body);
-		res.status(201).json({ message: 'User registered successfully', result })
-	}
-	catch (error) {
-		console.error('Error inserting user:', error)
-		res.status(400).json({ message: error })
-		
-		return; // Need to return void, not return the response object
-	}
+	throw new Error('Not implemented yet');
+	const result = await usersService.register(req.body);
+	res.status(201).json({ message: 'User registered successfully', result })
+	return;
 }
