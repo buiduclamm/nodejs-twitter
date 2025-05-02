@@ -5,18 +5,41 @@ import { ErrorWithStatus } from "~/models/Errors";
 import usersService from "~/services/users.services";
 import { validate } from "~/utils/validation";
 
-export const loginValidator = (req: Request, res: Response, next: NextFunction) => {
-	const { email, password } = req.body
-	if (!email || !password) {
-		res.status(400).json({
-			error: 'Missing email or password'
-		})
+export const loginValidator = validate(checkSchema({
+	email: {
+		notEmpty: {
+			errorMessage: USERS_MESSAGE.EMAIL_IS_REQUIRED,
+		},
+		isEmail: {
+			errorMessage: USERS_MESSAGE.EMAIL_IS_INVALID,
+		},
+		isString: {
+			errorMessage: USERS_MESSAGE.EMAIL_MUST_BE_STRING,
+		},
+		trim: true,
+		custom: {
+			options: async (value: string, { req }) => {
+				const user = await usersService.checkEmailExists(value)
+				if (!user) {
+					throw new Error(USERS_MESSAGE.USER_NOT_FOUND)
+				}
+				else {
+					req.user = user;
+				}
 
-		return; // Need to return void, not return the response object
+				return true
+			}
+		},
+	},
+	password: {
+		notEmpty: {
+			errorMessage: USERS_MESSAGE.PASSWORD_IS_REQUIRED,
+		},
+		isString: {
+			errorMessage: USERS_MESSAGE.PASSWORD_MUST_BE_STRING,
+		},
 	}
-
-	next();
-}
+}))
 
 export const registerValidator = validate(checkSchema({
 	name: {
