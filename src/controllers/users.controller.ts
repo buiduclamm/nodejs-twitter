@@ -10,7 +10,6 @@ export const loginController = (req: Request, res: Response) => {
 }
 
 export const registerController = async (req: Request<ParamsDictionary, any, RegisterRequestBody>, res: Response) => {
-	throw new Error('Not implemented yet');
 	const result = await usersService.register(req.body);
 	res.status(201).json({ message: 'User registered successfully', result })
 	return;

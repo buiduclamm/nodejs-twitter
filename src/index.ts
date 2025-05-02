@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express'
 import userRouter from '~/routes/users.routes'
 import databaseService from './services/database.services'
+import { defaultErrorHandler } from './middlewares/error.middlewares'
 
 const app = express()
 const port = 3000
@@ -20,7 +21,4 @@ app.use('/users', userRouter)
 
 // Error handling middleware
 // This middleware should be defined after all routes and before the app.listen() call
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-	console.error(err.stack)
-	res.status(500).send('Something broke!')
-})
+app.use(defaultErrorHandler);
