@@ -19,7 +19,7 @@ export const USERS_MESSAGE = {
 	DATE_OF_BIRTH_IS_REQUIRED: 'Date of birth is required',
 	DATE_OF_BIRTH_MUST_BE_STRING: 'Date of birth must be a string',
 	DATE_OF_BIRTH_MUST_BE_VALID: 'Date of birth must be a valid date',
-	USER_NOT_FOUND: 'User not found',
+	EMAIL_OR_PASSWORD_IS_INCORRECT: 'Email or password is incorrect',
 	LOGIN_SUCCESS: 'Login successful',
 	REGISTER_SUCCESS: 'Register successful',
 } as const;
