@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { ObjectId } from 'mongodb'
+import { UserVerifyStatus } from '~/constants/enum'
 import { USERS_MESSAGE } from '~/constants/messages'
-import { LogoutRequestBody, RegisterRequestBody, TokenPayload, VerifyEmailRequestBody } from '~/models/requests/User.request'
+import { LoginRequestBody, LogoutRequestBody, RegisterRequestBody, TokenPayload, VerifyEmailRequestBody } from '~/models/requests/User.request'
 import User from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
 import usersService from '~/services/users.services'
 
-export const loginController = async (req: Request, res: Response) => {
+export const loginController = async (req: Request<ParamsDictionary, any, LoginRequestBody>, res: Response) => {
 	const user = req.user as User; // user is set in the middleware
 	const user_id = user._id.toString();
 
@@ -28,7 +29,7 @@ export const logoutController = async (req: Request<ParamsDictionary, any, Logou
 	res.status(200).json(result);
 }
 
-export const emailVerifyTokenController = async (req: Request<ParamsDictionary, any, VerifyEmailRequestBody>, res: Response) => {
+export const verifyEmailController = async (req: Request<ParamsDictionary, any, VerifyEmailRequestBody>, res: Response) => {
 	const { user_id } = req.decodedEmailVerifyToken as TokenPayload
 	const user = await databaseService.users.findOne({ _id: new ObjectId(user_id) });
 
@@ -52,4 +53,22 @@ export const emailVerifyTokenController = async (req: Request<ParamsDictionary, 
 	const result = await usersService.verifyEmail(user._id.toString());
 	
 	res.status(200).json({ message: USERS_MESSAGE.EMAIL_VERIFY_SUCCESS, result });
+}
+
+export const resendVerifyEmailController = async (req: Request, res: Response) => {
+	const { user_id } = req.decodedAccessToken as TokenPayload;
+	const user = await databaseService.users.findOne({ _id: new ObjectId(user_id) });
+
+	if (!user) {
+		res.status(404).json({ message: USERS_MESSAGE.USER_NOT_FOUND });
+		return;
+	}
+
+	if (user.verify === UserVerifyStatus.Verified) {
+		res.status(200).json({ message: USERS_MESSAGE.EMAIL_VERIFIED_BEFORE });
+		return;
+	}
+
+	await usersService.resendEmailVerifyToken(user._id.toString());
+	res.status(200).json({ message: USERS_MESSAGE.RESEND_EMAIL_VERIFY_SUCCESS });
 }

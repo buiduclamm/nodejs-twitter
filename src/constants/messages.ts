@@ -37,4 +37,6 @@ export const USERS_MESSAGE = {
 	EMAIL_VERIFIED: 'Email already verified',
 	EMAIL_VERIFY_SUCCESS: 'Email verify successful',
 	EMAIL_VERIFY_TOKEN_IS_INVALID: 'Email verify token is invalid',
+	EMAIL_VERIFIED_BEFORE: 'Email already verified before',
+	RESEND_EMAIL_VERIFY_SUCCESS: 'Resend email verify token successful',
 } as const;
