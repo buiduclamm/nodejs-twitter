@@ -30,4 +30,11 @@ export const USERS_MESSAGE = {
 	REFRESH_TOKEN_NOT_FOUND: 'Refresh token not found',
 	LOGOUT_SUCCESS: 'Logout successful',
 	ACCESS_TOKEN_INVALID: 'Access token is invalid',
+	EMAIL_VERIFY_TOKEN_IS_REQUIRED: 'Email verify token is required',
+	EMAIL_VERIFY_TOKEN_MUST_BE_STRING: 'Email verify token must be a string',
+	EMAIL_VERIFY_TOKEN_NOT_FOUND: 'Email verify token not found',
+	USER_NOT_FOUND: 'User not found',
+	EMAIL_VERIFIED: 'Email already verified',
+	EMAIL_VERIFY_SUCCESS: 'Email verify successful',
+	EMAIL_VERIFY_TOKEN_IS_INVALID: 'Email verify token is invalid',
 } as const;

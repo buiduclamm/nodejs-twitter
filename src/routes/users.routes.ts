@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { access } from 'fs'
-import { loginController, logoutController, registerController } from '~/controllers/users.controller'
-import { accessTokenValidator, loginValidator, refreshTokenValidator, registerValidator } from '~/middlewares/users.middlewares'
+import { emailVerifyTokenController, loginController, logoutController, registerController } from '~/controllers/users.controller'
+import { accessTokenValidator, emailVerifyTokenValidator, loginValidator, refreshTokenValidator, registerValidator } from '~/middlewares/users.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const usersRouter = Router()
@@ -30,5 +30,13 @@ usersRouter.post('/register', registerValidator, wrapRequestHandler(registerCont
  * Body { refresh_token: string }
  */
 usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapRequestHandler(logoutController))
+
+/**
+ * Desc: Verify email
+ * Path: /verify-email
+ * Method: POST
+ * Body { email_verify_token: string }
+ */
+usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyTokenController))
 
 export default usersRouter
