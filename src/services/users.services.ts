@@ -8,6 +8,7 @@ import ms from 'ms'
 import RefreshToken from '~/models/schemas/RefreshToken.schema';
 import { ObjectId } from 'mongodb';
 import { config } from 'dotenv';
+import { USERS_MESSAGE } from '~/constants/messages';
 config();
 
 class UsersService {
@@ -63,6 +64,13 @@ class UsersService {
 		await databaseService.refreshTokens.insertOne(new RefreshToken({user_id: new ObjectId(user_id), token: refresh_token}));
 
 		return { access_token, refresh_token }
+	}
+
+	async logout(refresh_token: string) {
+		await databaseService.refreshTokens.deleteOne({ token: refresh_token });
+		return {
+			message: USERS_MESSAGE.LOGOUT_SUCCESS,
+		}
 	}
 }
 
