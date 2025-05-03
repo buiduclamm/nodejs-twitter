@@ -95,12 +95,16 @@ class UsersService {
 			this.signAccessAndRefreshTokens(user_id),
 			databaseService.users.updateOne(
 				{ _id: new ObjectId(user_id) }, 
-				{ $set: { 
-					email_verify_token: '',
-					updated_at: new Date(),
-					verify: UserVerifyStatus.Verified
-				} 
-			}),
+				{
+					$set: { 
+						email_verify_token: '',
+						updated_at: new Date(),
+						// updated_at: "$$NOW", // update the updated_at field to current date
+						verify: UserVerifyStatus.Verified
+					},
+					$currentDate: { updated_at: true }, // update the updated_at field to current date
+				}
+			),
 		]);
 
 		const [access_token, refresh_token] = tokens;
